@@ -3,6 +3,7 @@ package se.lexicon.exceptions.workshop.data_access;
 import java.util.List;
 import java.util.Random;
 
+import se.lexicon.exceptions.workshop.exception.DuplicateException;
 import se.lexicon.exceptions.workshop.domain.Gender;
 import se.lexicon.exceptions.workshop.domain.Person;
 import se.lexicon.exceptions.workshop.fileIO.CSVReader_Writer;
@@ -63,8 +64,14 @@ public class NameService {
      * @param name
      */
     public void addFemaleFirstName(String name) {
-        femaleFirstNames.add(name);
-        CSVReader_Writer.saveFemaleNames(femaleFirstNames);
+        if (femaleFirstNames.contains(name)) {
+            throw new DuplicateException("Duplicate female first name");
+        }
+        else {
+            femaleFirstNames.add(name);
+            CSVReader_Writer.saveFemaleNames(femaleFirstNames);
+        }
+
 
     }
 
@@ -76,10 +83,15 @@ public class NameService {
      * @param name
      */
     public void addMaleFirstName(String name) {
-        maleFirstNames.add(name);
-        CSVReader_Writer.saveMaleNames(maleFirstNames);
-    }
+        if (maleFirstNames.contains(name)) {
+            throw new DuplicateException("Duplicate male first name");
+        } else {
 
+
+            maleFirstNames.add(name);
+            CSVReader_Writer.saveMaleNames(maleFirstNames);
+        }
+    }
     /**
      * Here you need to check if List<String> lastNames already contains the name
      * If name already exists throw a new custom exception you will have to create called
@@ -87,10 +99,14 @@ public class NameService {
      *
      * @param lastName
      */
-    public void addLastName(String lastName) {
-        lastNames.add(lastName);
-        CSVReader_Writer.saveLastNames(lastNames);
-    }
+        public void addLastName (String lastName) {
+            if (lastNames.contains(lastName)) {
+                throw new DuplicateException("Duplicate last name");
+            } else {
+                lastNames.add(lastName);
+                CSVReader_Writer.saveLastNames(lastNames);
+            }
 
+        }
 
 }
